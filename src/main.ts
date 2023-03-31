@@ -15,6 +15,6 @@ app.use(router)
 app.mount('#app')
 
 app.render = (vnode: VNode | null, rootContainer: Element): void => {
-    if (vnode && !vnode.appContext) vnode.appContext = app._context
-    render(vnode, rootContainer)
+  if (vnode && !vnode.appContext) vnode.appContext = app._context
+  render(vnode, rootContainer)
 }

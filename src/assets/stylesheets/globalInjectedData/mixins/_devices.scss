@@ -6,13 +6,19 @@ $desktop-width: 1024px;
 // desktop-device 1024+
 // [-]及以下, [+]及以上
 $breakpoints: (
-  'mobile': 'only screen and (max-width: #{$tablet-width - 1px})', // 0..=767
-  'tablet': 'only screen and (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px})', // 768..=1023
-  'tablet+': 'only screen and (min-width: #{$tablet-width})', // 768...max
-  'tablet-': 'only screen and (max-width: #{$desktop-width - 1px})', // 0..=1023
-  'desktop': 'only screen and (min-width: #{$desktop-width})', // 1024...max
-  'retina': 'only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx)',
-  'print': 'print',
+  'mobile': 'only screen and (max-width: #{$tablet-width - 1px})',
+  // 0..=767
+  'tablet': 'only screen and (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px})',
+  // 768..=1023
+  'tablet+': 'only screen and (min-width: #{$tablet-width})',
+  // 768...max
+  'tablet-': 'only screen and (max-width: #{$desktop-width - 1px})',
+  // 0..=1023
+  'desktop': 'only screen and (min-width: #{$desktop-width})',
+  // 1024...max
+  'retina':
+    'only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx)',
+  'print': 'print'
 ) !default;
 
 @mixin media-responds-to($breakpoint) {

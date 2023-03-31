@@ -3,7 +3,16 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
-  'extends': [
+  // globals: {
+  //   window: true,
+  //   module: true
+  // },
+  env: {
+    browser: true,
+    // "amd": true,
+    node: true
+  },
+  extends: [
     'plugin:vue/vue3-essential',
     'eslint:recommended',
     '@vue/eslint-config-typescript',
