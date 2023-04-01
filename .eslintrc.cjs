@@ -22,6 +22,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
+    // https://eslint.vuejs.org/rules/multi-word-component-names.html
     'vue/multi-word-component-names': 'off'
   }
 }
