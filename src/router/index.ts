@@ -1,6 +1,6 @@
 import { createRouter as createVueRouter, createWebHistory } from 'vue-router'
 import { useProxy, useRoutes } from '@/utils/hooks/useRouter'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/home/index.vue'
 
 export const createRouter = () => {
   const proxyRouter = useProxy(
@@ -8,7 +8,7 @@ export const createRouter = () => {
       history: createWebHistory(import.meta.env.VITE_APP_BASE_URL),
       routes: useRoutes([
         { path: '/', name: 'home', component: HomeView },
-        { path: '/about', name: 'about', component: () => import('../views/AboutView.vue') }
+        { path: '/about', name: 'about', component: () => import('../views/about/index.vue') }
       ])
     })
   )
