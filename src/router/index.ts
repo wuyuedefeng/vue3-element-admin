@@ -7,8 +7,33 @@ export const createRouter = () => {
     createVueRouter({
       history: createWebHistory(import.meta.env.VITE_APP_BASE_URL),
       routes: useRoutes([
-        { path: '/', name: 'home', component: HomeView },
-        { path: '/about', name: 'about', component: () => import('../views/about/index.vue') }
+        { path: '/', name: 'home', meta: { title: '首页' }, component: HomeView },
+        {
+          path: '/about',
+          name: 'about',
+          meta: { title: '关于' },
+          component: () => import('../views/about/index.vue')
+        },
+        {
+          path: '/auth',
+          name: 'auth',
+          meta: { title: 'Auth' },
+          component: () => import('../views/auth/index.vue'),
+          children: [
+            {
+              path: 'login',
+              name: 'auth/login',
+              meta: { title: 'Login' },
+              component: () => import('@/views/auth/login/index.vue')
+            },
+            {
+              path: 'register',
+              name: 'auth/register',
+              meta: { title: 'Register' },
+              component: () => import('@/views/auth/register/index.vue')
+            }
+          ]
+        }
       ])
     })
   )

@@ -55,7 +55,7 @@ function generatePlugins(): Plugin[] {
     // https://github.com/antfu/unplugin-auto-import
     // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
     AutoImport({
-      dts: fileURLToPath(new URL('./auto-imports.d.ts', import.meta.url)),
+      dts: fileURLToPath(new URL('./types/auto-imports.d.ts', import.meta.url)),
       // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
       // imports: ['vue', '@vueuse/core'],
       // dirs: [pathResolve('./components')],
@@ -63,7 +63,7 @@ function generatePlugins(): Plugin[] {
     }),
     // https://github.com/antfu/unplugin-vue-components#configuration
     Components({
-      dts: fileURLToPath(new URL('./components.d.ts', import.meta.url)),
+      dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url)),
       resolvers: [
         ElementPlusResolver({ importStyle: true }),
         IconsResolver({

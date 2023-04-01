@@ -1,29 +1,29 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import DefalutLayout from '@/components/layouts/Default.vue'
 </script>
 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/images/svg-icons/vue.svg"
-      width="125"
-      height="125"
-    />
+  <DefalutLayout>
+    <header>
+      <img
+        alt="Vue logo"
+        class="logo"
+        src="@/assets/images/svg-icons/vue.svg"
+        width="125"
+        height="125"
+      />
 
-    <div class="wrapper flex">
-      <HelloWorld msg="You did it!" />
+      <div class="wrapper flex">
+        <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+        </nav>
+      </div>
+    </header>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <RouterView />
+  </DefalutLayout>
 </template>
 
 <style scoped>

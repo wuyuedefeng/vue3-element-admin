@@ -1,10 +1,10 @@
 <template>
-  <div class="about">
+  <main class="about">
     <h1>This is an about page</h1>
     <el-button type="primary">hello</el-button>
     <i-svg-file-copy style="font-size: 40px; fill: red"></i-svg-file-copy>
     <i-svg-vue style="font-size: 40px"></i-svg-vue>
-  </div>
+  </main>
 </template>
 
 <style lang="scss" scoped>
