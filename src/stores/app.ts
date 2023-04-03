@@ -68,5 +68,14 @@ export const useAppStore = defineStore('app', {
       }
     }
   },
-  persist: true
+  persist: [
+    {
+      paths: [],
+      storage: localStorage
+    },
+    {
+      paths: ['config', 'navMenu', 'tagsView'],
+      storage: sessionStorage
+    }
+  ]
 })

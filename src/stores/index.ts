@@ -16,7 +16,8 @@ export const createPinia = () => {
         if (import.meta.env.DEV) {
           console.info(`afterRestore: ${ctx.store.$id}`)
         }
-      }
+      },
+      debug: import.meta.env.DEV
     })
   )
   return pinia
