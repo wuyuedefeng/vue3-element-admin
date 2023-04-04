@@ -12,6 +12,7 @@ const list = useList({
     { label: '姓名', prop: 'name' }
   ],
   async onLoad() {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
     list.records = [{ id: 1, name: '张三' }]
     list.pagination.totalCount = 1
   }
@@ -53,7 +54,9 @@ const onEdit = () => {
           <el-input v-model="list.query.title"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">搜索</el-button>
+          <el-button type="primary" :loading="list.isLoading" @click="list.onLoad">
+            <template #icon><i-ep-search /></template>搜索
+          </el-button>
           <el-button type="primary" @click="onCreate">添加</el-button>
           <el-button type="primary" @click="onEdit">编辑</el-button>
         </el-form-item>

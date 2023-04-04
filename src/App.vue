@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import DefalutLayout from '@/components/layouts/Default.vue'
 </script>
 
