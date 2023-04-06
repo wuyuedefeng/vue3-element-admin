@@ -11,8 +11,8 @@ export const useAppStore = defineStore('app', {
       popperEffect: 'dark'
     },
     tagsView: {
-      visitedRoutes: []
-      // cachedRoutes: []
+      visitedRoutes: [],
+      cachedRoutes: []
     }
   }),
   actions: {

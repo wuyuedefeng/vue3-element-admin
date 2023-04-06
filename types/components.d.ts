@@ -28,6 +28,8 @@ declare module '@vue/runtime-core' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    FadeRouteAnimation: typeof import('./../src/components/animations/routerViews/FadeRouteAnimation.vue')['default']
+    FadeRouterView: typeof import('./../src/components/animations/routerViews/FadeRouterView.vue')['default']
     FragmentList: typeof import('./../src/components/shared/fragments/FragmentList.vue')['default']
     Header: typeof import('./../src/components/layouts/Header/index.vue')['default']
     Humburger: typeof import('./../src/components/layouts/Header/Humburger.vue')['default']

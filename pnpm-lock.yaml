@@ -10,6 +10,7 @@ specifiers:
   '@vue/eslint-config-prettier': ^7.1.0
   '@vue/eslint-config-typescript': ^11.0.2
   '@vue/tsconfig': ^0.1.3
+  '@vueuse/core': ^9.13.0
   autoprefixer: ^10.4.14
   axios: ^1.3.4
   cssnano: ^6.0.0
@@ -38,6 +39,7 @@ specifiers:
   vue-tsc: ^1.2.0
 
 dependencies:
+  '@vueuse/core': 9.13.0_vue@3.2.47
   axios: 1.3.4
   element-plus: 2.3.2_vue@3.2.47
   lodash-es: 4.17.21
@@ -70,7 +72,7 @@ devDependencies:
   sass: 1.60.0
   tailwindcss: 3.3.1_postcss@8.4.21
   typescript: 5.0.2
-  unplugin-auto-import: 0.15.2
+  unplugin-auto-import: 0.15.2_@vueuse+core@9.13.0
   unplugin-icons: 0.16.1
   unplugin-vue-components: 0.24.1_vue@3.2.47
   vite: 4.2.1_hghbulspu73jfdazs4i6yiqype
@@ -808,7 +810,6 @@ packages:
 
   /@types/web-bluetooth/0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
-    dev: false
 
   /@typescript-eslint/eslint-plugin/5.57.0_s5k7qbmvzkal3edwy7gcxmnteu:
     resolution: {integrity: sha512-itag0qpN6q2UMM6Xgk6xoHa0D0/P+M17THnr4SVgqn9Rgam5k/He33MA7/D7QoJcdMxHFyX7U9imaBonAX/6qA==}
@@ -1158,11 +1159,9 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: false
 
   /@vueuse/metadata/9.13.0:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
-    dev: false
 
   /@vueuse/shared/9.13.0_vue@3.2.47:
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
@@ -1171,7 +1170,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: false
 
   /acorn-jsx/5.3.2_acorn@8.8.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -4185,7 +4183,7 @@ packages:
       - rollup
     dev: true
 
-  /unplugin-auto-import/0.15.2:
+  /unplugin-auto-import/0.15.2_@vueuse+core@9.13.0:
     resolution: {integrity: sha512-Wivfu+xccgvEZG8QtZcIvt6napfX9wyOFqM//7FHOtev8+k+dp3ykiqsEl6TODgHmqTTBeQX4Ah1JvRgUNjlkg==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -4199,6 +4197,7 @@ packages:
     dependencies:
       '@antfu/utils': 0.7.2
       '@rollup/pluginutils': 5.0.2
+      '@vueuse/core': 9.13.0_vue@3.2.47
       local-pkg: 0.4.3
       magic-string: 0.30.0
       minimatch: 7.4.3
@@ -4350,7 +4349,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.2.47
-    dev: false
 
   /vue-eslint-parser/9.1.1_eslint@8.37.0:
     resolution: {integrity: sha512-C2aI/r85Q6tYcz4dpgvrs4wH/MqVrRAVIdpYedrxnATDHHkb+TroeRcDpKWGZCx/OcECMWfz7tVwQ8e+Opy6rA==}

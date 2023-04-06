@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import { useForm } from '@/utils/hooks/useForm'
 
-const emits = defineEmits(['abc'])
-
 defineProps({
   record: [Object]
 })
