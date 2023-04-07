@@ -20,6 +20,22 @@ export default defineConfig(async (params: ConfigEnv) => {
   console.info(`running mode: ${mode}, command: ${command}, ENV: ${JSON.stringify(ENV)}`)
 
   return {
+    // https://vitejs.dev/config/#server-options
+    server: {
+      host: '0.0.0.0',
+      disableHostCheck: true, // 解决127.0.0.1指向其他域名时出现"Invalid Host header"问题
+      proxy: {
+        '/api': {
+          target: 'http://ip:port',
+          headers: {},
+          changOrigin: true, // 配置跨域
+          ws: true, // 配置ws跨域
+          secure: false, // https
+          //loglevel: 'debug',
+          rewrite: (path) => path.replace('/api', '')
+        }
+      }
+    },
     plugins: generatePlugins(),
     resolve: {
       extensions: ['.json', '.js', '.jsx', '.ts', 'tsx', '.vue'],
@@ -60,7 +76,7 @@ function generatePlugins(): Plugin[] {
       // imports: ['vue', '@vueuse/core'],
       imports: [
         {
-          vue: ['defineComponent', 'defineAsyncComponent']
+          vue: ['defineComponent', 'defineAsyncComponent', 'createVNode']
         }
       ],
       // dirs: [pathResolve('./components')],

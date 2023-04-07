@@ -10,7 +10,6 @@ import Header from './Header/index.vue'
     </el-aside>
     <el-scrollbar class="w-full">
       <Header></Header>
-
       <el-main>
         <slot></slot>
       </el-main>

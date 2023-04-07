@@ -1,14 +1,23 @@
 import type { VNode, Slot } from 'vue'
-import { getCurrentInstance, createVNode, defineComponent, reactive, ref, provide } from 'vue'
+import {
+  getCurrentInstance,
+  createVNode,
+  defineComponent,
+  reactive,
+  ref,
+  provide,
+  inject
+} from 'vue'
 import 'element-plus/es/components/dialog/style/css'
-import { ElDialog } from 'element-plus'
+import { ElDialog, ElConfigProvider } from 'element-plus'
 
 const ModalComponent = defineComponent({
   props: {
     options: {
       type: Object,
       required: true
-    }
+    },
+    configProvider: [Object]
   },
   setup(props) {
     const { slots = {}, ...options } = props.options as DialogOptions
@@ -41,7 +50,18 @@ const ModalComponent = defineComponent({
     }
   },
   render() {
-    return createVNode(ElDialog, this.dialogState, this.dialogSlots)
+    const dialog = createVNode(ElDialog, this.dialogState, this.dialogSlots)
+    return this.configProvider
+      ? createVNode(
+          ElConfigProvider,
+          {
+            locale: this.configProvider.locale
+          },
+          {
+            default: () => dialog
+          }
+        )
+      : dialog
   }
 })
 
@@ -63,6 +83,7 @@ const ModalComponent = defineComponent({
 export const useDialog = (defaultOptions: DialogOptions | {} = {}) => {
   const instance = getCurrentInstance()
   console.assert(!!instance, 'getCurrentInstance无法获取到实例，请检查')
+  const configProvider = inject('configProvider', null)
   const app = instance!.appContext.app
 
   return {
@@ -86,7 +107,8 @@ export const useDialog = (defaultOptions: DialogOptions | {} = {}) => {
               options.onClosed()
             }
           }
-        }
+        },
+        configProvider
       })
       modalVNode.appContext = instance!.appContext
       app.render(modalVNode, div)
