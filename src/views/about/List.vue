@@ -3,16 +3,17 @@ import { createVNode } from 'vue'
 import { useList } from '@/utils/hooks/useList'
 import { useDialog } from '@/utils/hooks/useDialog'
 import Form from './Form.vue'
+import { ElTag } from 'element-plus'
 
 const dialog = useDialog()
 
 const list = useList({
   tableColumns: [
-    { label: 'ID', prop: 'id', width: 100 },
+    { label: 'ID', prop: 'id', width: 100, render: ({ row }) => <ElTag>{row.id}</ElTag> },
     { label: '姓名', prop: 'name' }
   ],
   async onLoad() {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     list.records = [{ id: 1, name: '张三' }]
     list.pagination.totalCount = 1
   }

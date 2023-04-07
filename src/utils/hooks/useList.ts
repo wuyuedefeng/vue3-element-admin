@@ -109,9 +109,11 @@ export interface TableColumn {
   label: string
   columnKey?: string
   prop: string
+  slot?: string
   width?: string | number
   fixed?: true | 'left' | 'right'
   renderHeader?: (param: { column: TableColumn; $index: number }) => JSX.Element
+  render?: (scope: { row: any; column: TableColumn; $index: number }) => JSX.Element
 }
 
 export interface ListQuery extends Record<string, any> {
