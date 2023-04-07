@@ -51,13 +51,14 @@ const onEdit = () => {
   <FragmentList ref="listRef" :list="list">
     <template #query>
       <el-form inline>
-        <el-form-item>
+        <el-form-item label="标题:">
           <el-input v-model="list.query.title"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :loading="list.isLoading" @click="list.onLoad">
+          <el-button type="primary" :loading="list.isLoading" @click="list.onLoad()">
             <template #icon><i-ep-search /></template>搜索
           </el-button>
+          <el-button @click="list.onReset()">重置</el-button>
           <el-button type="primary" @click="onCreate">添加</el-button>
           <el-button type="primary" @click="onEdit">编辑</el-button>
         </el-form-item>

@@ -27,6 +27,7 @@ export default defineComponent({
 
 <template>
   <slot name="query" v-bind="{ list }"></slot>
+  <slot name="actions" v-bind="{ list }"></slot>
   <slot v-bind="{ list }">
     <template v-if="defaultTableSlot">
       <el-table v-loading="list.isLoading" :data="list.records" v-bind="$attrs">

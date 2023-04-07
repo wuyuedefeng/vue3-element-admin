@@ -1,9 +1,19 @@
 import type { ComputedRef } from 'vue'
 import { reactive, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 export const useList = (options: ListOptions) => {
+  const router = useRouter()
+  const route = useRoute()
   let self: any = null
+  let routeQ = {}
+  try {
+    routeQ = route.query?.q ? JSON.parse(route.query.q as string) : {}
+  } catch (e) {
+    routeQ = {}
+  }
   const state = reactive<List>({
+    supportUrlQuery: options.supportUrlQuery || true,
     fetchCount: 0,
     isRefreshing: false,
     isLoading: false,
@@ -11,7 +21,7 @@ export const useList = (options: ListOptions) => {
     isError: computed<boolean>(() => !!self?.errorInfo),
     // isError: false,
     errorInfo: null,
-    query: { ...options.query },
+    query: { ...options.query, ...routeQ },
     records: [],
     tableColumns: options.tableColumns ? [...options.tableColumns] : [],
     pagination: {
@@ -41,7 +51,7 @@ export const useList = (options: ListOptions) => {
         records: [],
         tableColumns: options.tableColumns ? [...options.tableColumns] : [],
         pagination: {
-          ...self.state.pagination,
+          ...self.pagination,
           pageNo: 1,
           pageSize: 20,
           totalPage: 1,
@@ -50,31 +60,40 @@ export const useList = (options: ListOptions) => {
         }
       })
     },
-    async onRefresh() {
+    async onRefresh(defaultQuery: ListQuery = {}) {
       // 清空列表数据
       state.records = []
       state.isFinished = false
       state.isRefreshing = true
-      await state.onLoad()
+      await state.onLoad(defaultQuery)
     },
     async onLoad(defaultQuery: ListQuery = {}, shouldReset = false) {
       const { pageNo, pageSize, ...otherQuery } = defaultQuery
       if (shouldReset) {
-        this.query = otherQuery
+        state.query = otherQuery
         state.pagination.pageNo = 1
         state.pagination.pageSize = 10
       }
       if (Object.prototype.hasOwnProperty.call(defaultQuery, 'pageNo')) {
         state.pagination.pageNo = pageNo as number
+        state.query.pageNo = state.pagination.pageNo
       }
       if (Object.prototype.hasOwnProperty.call(defaultQuery, 'pageSize')) {
         state.pagination.pageSize = pageSize as number
+        state.query.pageSize = state.pagination.pageSize
       }
       state.isLoading = true
       state.fetchCount++
       if (state.isRefreshing) {
         state.records = []
         state.isRefreshing = false
+      }
+      if (state.supportUrlQuery) {
+        if (Object.keys(state.query).length) {
+          router.replace({ query: { q: JSON.stringify(state.query) } })
+        } else {
+          router.replace({ query: {} })
+        }
       }
       await options
         .onLoad(state)
@@ -90,6 +109,10 @@ export const useList = (options: ListOptions) => {
         .finally(() => {
           state.isLoading = false
         })
+    },
+    async onReset(defaultQuery: ListQuery = {}) {
+      state.initState()
+      state.onLoad(defaultQuery, true)
     }
   })
   self = state
@@ -97,6 +120,7 @@ export const useList = (options: ListOptions) => {
 }
 
 export interface ListOptions {
+  supportUrlQuery?: boolean
   tableColumns?: TableColumn[]
   onLoad: (query: any) => Promise<void>
   query?: ListQuery
@@ -106,7 +130,7 @@ export interface ListOptions {
 export interface TableColumn {
   type?: 'selection' | 'index' | 'expand'
   index?: number | ((index: number) => number)
-  label: string
+  label?: string
   columnKey?: string
   prop: string
   slot?: string
@@ -131,6 +155,7 @@ export interface ListPagination {
 }
 
 export interface List {
+  supportUrlQuery: boolean
   fetchCount: number
   isRefreshing: boolean
   isLoading: boolean
@@ -144,4 +169,5 @@ export interface List {
   initState: () => void
   onRefresh: () => void
   onLoad: (query?: ListQuery, shouldReset?: boolean) => void
+  onReset: (query?: ListQuery) => void
 }
