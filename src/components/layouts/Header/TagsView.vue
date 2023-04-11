@@ -7,9 +7,11 @@ const app = useAppStore()
 const route = useRoute()
 
 watch(
-  () => route.path,
-  () => {
-    app.addTagsViewVisitedRoutes(route)
+  () => route.meta?.title,
+  (nTitle) => {
+    if (nTitle) {
+      app.addTagsViewVisitedRoutes(route)
+    }
   },
   { immediate: true }
 )

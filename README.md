@@ -1,4 +1,4 @@
-# vue3-element-admin
+# [vue3-element-admin](https://github.com/wuyuedefeng/vue3-element-admin)
 
 This template should help get you started developing with Vue 3 in Vite.
 

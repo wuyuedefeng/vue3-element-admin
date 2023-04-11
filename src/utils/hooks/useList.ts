@@ -2,6 +2,7 @@ import type { ComputedRef } from 'vue'
 import { reactive, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+const DEFAULT_PAGE_SIZE = 20
 export const useList = (options: ListOptions) => {
   const router = useRouter()
   const route = useRoute()
@@ -26,7 +27,7 @@ export const useList = (options: ListOptions) => {
     tableColumns: options.tableColumns ? [...options.tableColumns] : [],
     pagination: {
       pageNo: 1,
-      pageSize: 20,
+      pageSize: DEFAULT_PAGE_SIZE,
       totalPage: 1,
       totalCount: 0,
       onCurrentChange(pageNo: number) {
@@ -53,39 +54,41 @@ export const useList = (options: ListOptions) => {
         pagination: {
           ...self.pagination,
           pageNo: 1,
-          pageSize: 20,
+          pageSize: DEFAULT_PAGE_SIZE,
           totalPage: 1,
           totalCount: 0,
           ...options.pagination
         }
       })
     },
-    async onRefresh(defaultQuery: ListQuery = {}) {
-      // 清空列表数据
-      state.records = []
+    async onRefresh(moreQuery: ListQuery = {}) {
+      state.records = [] // 清空列表数据
       state.isFinished = false
       state.isRefreshing = true
-      await state.onLoad(defaultQuery)
+      await state.onLoad(moreQuery)
     },
-    async onLoad(defaultQuery: ListQuery = {}, shouldReset = false) {
-      const { pageNo, pageSize, ...otherQuery } = defaultQuery
-      if (shouldReset) {
-        state.query = otherQuery
-        state.pagination.pageNo = 1
-        state.pagination.pageSize = 10
+    async onLoad(moreQuery: ListQuery = {}, shouldReset = false) {
+      if (moreQuery instanceof Event) {
+        moreQuery = {}
       }
-      if (Object.prototype.hasOwnProperty.call(defaultQuery, 'pageNo')) {
+      const { pageNo, pageSize, ...otherCustomQuery } = moreQuery
+      if (shouldReset) {
+        state.query = { ...options.query, ...otherCustomQuery }
+        state.pagination.pageNo = 1
+        state.pagination.pageSize = pageSize || DEFAULT_PAGE_SIZE
+      }
+      if (Object.prototype.hasOwnProperty.call(moreQuery, 'pageNo')) {
         state.pagination.pageNo = pageNo as number
         state.query.pageNo = state.pagination.pageNo
       }
-      if (Object.prototype.hasOwnProperty.call(defaultQuery, 'pageSize')) {
+      if (Object.prototype.hasOwnProperty.call(moreQuery, 'pageSize')) {
         state.pagination.pageSize = pageSize as number
         state.query.pageSize = state.pagination.pageSize
       }
       state.isLoading = true
       state.fetchCount++
       if (state.isRefreshing) {
-        state.records = []
+        state.records = [] // 清空列表数据
         state.isRefreshing = false
       }
       if (state.supportUrlQuery) {
@@ -96,7 +99,7 @@ export const useList = (options: ListOptions) => {
         }
       }
       await options
-        .onLoad(state)
+        .onLoad(trimQuery(state.query))
         .then((data: any) => {
           // state.isError = false
           state.errorInfo = null
@@ -110,13 +113,26 @@ export const useList = (options: ListOptions) => {
           state.isLoading = false
         })
     },
-    async onReset(defaultQuery: ListQuery = {}) {
+    async onReset(customQuery: ListQuery = {}) {
+      if (customQuery instanceof Event) {
+        customQuery = {}
+      }
       state.initState()
-      state.onLoad(defaultQuery, true)
+      state.onLoad(customQuery, true)
     }
   })
   self = state
   return state
+}
+
+export function trimQuery(query: ListQuery) {
+  const newQuery: ListQuery = {}
+  for (const key in query) {
+    if ([undefined, null, ''].indexOf(query[key]) === -1) {
+      newQuery[key] = query[key]
+    }
+  }
+  return newQuery
 }
 
 export interface ListOptions {

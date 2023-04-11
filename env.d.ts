@@ -19,9 +19,9 @@ import type { AxiosRequestConfig as VueAxiosRequestConfig } from 'axios'
 declare module 'axios' {
   interface AxiosRequestConfig extends VueAxiosRequestConfig {
     meta: {
-      retry: number
-      /*times*/ retryDelay: number
-      /*ms*/ curRetry: number /*times*/
+      retry: number /*times*/
+      retryDelay: number /*ms*/
+      curRetry: number /*times*/
       withProgressBar: boolean
       requestKey?: string
     }
@@ -29,7 +29,7 @@ declare module 'axios' {
 }
 
 declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
-  const component: DefineComponent<{}, {}, any>
-  export default component
+  import { ComponentOptions } from 'vue'
+  const componentOptions: ComponentOptions
+  export default componentOptions
 }

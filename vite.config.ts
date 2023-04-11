@@ -41,6 +41,7 @@ export default defineConfig(async (params: ConfigEnv) => {
       extensions: ['.json', '.js', '.jsx', '.ts', 'tsx', '.vue'],
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@hooks': fileURLToPath(new URL('./src/utils/hooks', import.meta.url)),
         '#': fileURLToPath(new URL('./types', import.meta.url))
       }
     },
