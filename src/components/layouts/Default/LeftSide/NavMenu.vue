@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import type { RouteRecord } from 'vue-router'
 import { useRouter, useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-const app = useAppStore()
+const appStore = useAppStore()
 const router = useRouter()
 const route = useRoute()
 const menuRoutes = computed(() => [
@@ -31,7 +31,7 @@ const onMenuItemClick = (route: any) => {
 
 <template>
   <el-menu
-    v-bind="app.navMenu"
+    v-bind="appStore.navMenu"
     class="h-full"
     :defaultActive="defalutActive"
     :defaultOpeneds="defaultOpeneds"

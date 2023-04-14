@@ -9,8 +9,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Breadcrumb: typeof import('./../src/components/layouts/Header/Breadcrumb.vue')['default']
-    Default: typeof import('./../src/components/layouts/Default.vue')['default']
+    Breadcrumb: typeof import('./../src/components/layouts/Default/Main/Header/Breadcrumb.vue')['default']
+    Default: typeof import('./../src/components/layouts/Default/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElHeader: typeof import('element-plus/es')['ElHeader']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
@@ -30,16 +31,20 @@ declare module '@vue/runtime-core' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     FragmentList: typeof import('./../src/components/shared/fragments/FragmentList.vue')['default']
-    Header: typeof import('./../src/components/layouts/Header/index.vue')['default']
-    Humburger: typeof import('./../src/components/layouts/Header/Humburger.vue')['default']
+    Header: typeof import('./../src/components/layouts/Default/Header/index.vue')['default']
+    Humburger: typeof import('./../src/components/layouts/Default/Main/Header/Humburger.vue')['default']
     IEpClose: typeof import('~icons/ep/close')['default']
     IEpSearch: typeof import('~icons/ep/search')['default']
     ISvgFileCopy: typeof import('~icons/svg/file-copy')['default']
     ISvgVue: typeof import('~icons/svg/vue')['default']
-    NavMenu: typeof import('./../src/components/layouts/NavMenu.vue')['default']
+    LayoutDefault: typeof import('./../src/components/layouts/LayoutDefault/index.vue')['default']
+    LayoutHeader: typeof import('./../src/components/layouts/Default/LayoutHeader.vue')['default']
+    LeftSide: typeof import('./../src/components/layouts/Default/LeftSide/index.vue')['default']
+    Main: typeof import('./../src/components/layouts/Default/Main/index.vue')['default']
+    NavMenu: typeof import('./../src/components/layouts/Default/LeftSide/NavMenu.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TagsView: typeof import('./../src/components/layouts/Header/TagsView.vue')['default']
+    TagsView: typeof import('./../src/components/layouts/Default/Main/Header/TagsView.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

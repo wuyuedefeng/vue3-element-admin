@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { provide } from 'vue'
-import DefalutLayout from '@/components/layouts/Default.vue'
+import DefaultLayout from '@/components/layouts/Default/index.vue'
 // @ts-ignore
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
@@ -13,7 +13,7 @@ provide('configProvider', configProvider)
 
 <template>
   <el-config-provider :locale="configProvider.locale">
-    <DefalutLayout>
+    <DefaultLayout>
       <header>
         <img
           alt="Vue logo"
@@ -31,7 +31,7 @@ provide('configProvider', configProvider)
         </div>
       </header>
       <router-view></router-view>
-    </DefalutLayout>
+    </DefaultLayout>
   </el-config-provider>
 </template>
 

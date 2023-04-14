@@ -3,21 +3,21 @@ import { watch, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
 
-const app = useAppStore()
+const appStore = useAppStore()
 const route = useRoute()
 
 watch(
   () => route.meta?.title,
   (nTitle) => {
     if (nTitle) {
-      app.addTagsViewVisitedRoutes(route)
+      appStore.addTagsViewVisitedRoutes(route)
     }
   },
   { immediate: true }
 )
 
 const onDelete = (tag: any) => {
-  app.deleteTagsViewVisitedRoutes(tag)
+  appStore.deleteTagsViewVisitedRoutes(tag)
 }
 
 const contextmenuState = reactive({
@@ -38,13 +38,13 @@ const contextmenuState = reactive({
     contextmenuState.visible = true
   },
   closeOtherTags() {
-    app.deleteTagsViewOtherRoutes(contextmenuState.route)
+    appStore.deleteTagsViewOtherRoutes(contextmenuState.route)
   },
   closeLeftTags() {
-    app.deleteTagsViewLeftRoutes(contextmenuState.route)
+    appStore.deleteTagsViewLeftRoutes(contextmenuState.route)
   },
   closeRightTags() {
-    app.deleteTagsViewRightRoutes(contextmenuState.route)
+    appStore.deleteTagsViewRightRoutes(contextmenuState.route)
   },
   closeMenu() {
     contextmenuState.visible = false
@@ -63,7 +63,7 @@ onBeforeUnmount(() => {
   <div class="tags-view">
     <el-scrollbar :vertical="false">
       <div class="flex">
-        <template v-for="tag in app.tagsView.visitedRoutes" :key="tag.path || tag.name">
+        <template v-for="tag in appStore.tagsView.visitedRoutes" :key="tag.path || tag.name">
           <router-link
             class="router-item"
             :to="{ path: tag.path, query: tag.query }"

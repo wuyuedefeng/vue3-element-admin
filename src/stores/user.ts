@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useAppStore = defineStore('app', {
+export const useUserStore = defineStore('user', {
   state: (): any => ({
     authInfo: null,
     userInfo: null
@@ -14,6 +14,10 @@ export const useAppStore = defineStore('app', {
     },
     setUserInfo(userInfo: any): void {
       this.userInfo = userInfo
+    },
+    clearLoginInfo() {
+      this.setUserInfo(null)
+      this.setAuthInfo(null)
     }
   }
 })
