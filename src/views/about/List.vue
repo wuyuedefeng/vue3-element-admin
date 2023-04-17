@@ -9,7 +9,13 @@ const dialog = useDialog()
 
 const list = useList({
   tableColumns: [
-    { label: 'ID', prop: 'id', width: 100, render: ({ row }) => <ElTag>{row.id}</ElTag> },
+    {
+      label: 'ID',
+      prop: 'id',
+      width: 100,
+      renderHeader: () => <ElTag>ID</ElTag>,
+      render: ({ row }) => <ElTag>{row.id}</ElTag>
+    },
     { label: '姓名', prop: 'name' }
   ],
   async onLoad() {
@@ -32,12 +38,12 @@ const onCreate = () => {
 
 const onEdit = () => {
   const instance = dialog.create({
-    title: '新增',
+    title: '编辑',
     slots: {
       default: () =>
         createVNode(Form, {
-          record: { a: 111 },
-          onAbc() {
+          record: { title: 111 },
+          onSubmit() {
             instance.close()
           }
         })

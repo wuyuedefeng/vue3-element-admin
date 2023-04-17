@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script lang="tsx" setup>
 import { provide } from 'vue'
 import DefaultLayout from '@/components/layouts/Default/index.vue'
 // @ts-ignore
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import zhCN from 'element-plus/dist/locale/zh-cn.mjs'
 
 const configProvider = {
-  locale: zhCn
+  locale: zhCN
 }
 
 provide('configProvider', configProvider)

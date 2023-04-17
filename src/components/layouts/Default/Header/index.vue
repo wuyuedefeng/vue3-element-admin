@@ -1,4 +1,4 @@
-<script setup></script>
+<script lang="tsx" setup></script>
 
 <template>
   <div class="header">
