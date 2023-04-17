@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Breadcrumb: typeof import('./../src/components/layouts/Default/Main/Header/Breadcrumb.vue')['default']
     Default: typeof import('./../src/components/layouts/Default/index.vue')['default']
+    ECharts: typeof import('./../src/components/shared/ECharts.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']

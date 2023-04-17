@@ -1,6 +1,7 @@
 <script lang="tsx" setup>
 import List from './List.vue'
 import Form from './Form.vue'
+import LineChart from './LineChart.vue'
 </script>
 
 <template>
@@ -25,6 +26,9 @@ import Form from './Form.vue'
       <li class="mt-5">
         <Form></Form>
         <el-divider></el-divider>
+      </li>
+      <li>
+        <LineChart style="height: 300px"></LineChart>
       </li>
     </ul>
   </main>

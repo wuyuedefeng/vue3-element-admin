@@ -42,6 +42,7 @@ export default defineConfig(async (params: ConfigEnv) => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
         '@hooks': fileURLToPath(new URL('./src/utils/hooks', import.meta.url)),
+        'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
         '#': fileURLToPath(new URL('./types', import.meta.url))
       }
     },
