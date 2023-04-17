@@ -13,7 +13,7 @@ const list = useList({
       label: 'ID',
       prop: 'id',
       width: 100,
-      renderHeader: () => <ElTag>ID</ElTag>,
+      // renderHeader: () => <ElTag>ID</ElTag>,
       render: ({ row }) => <ElTag>{row.id}</ElTag>
     },
     { label: '姓名', prop: 'name' }

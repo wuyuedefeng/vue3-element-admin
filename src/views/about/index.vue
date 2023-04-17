@@ -14,6 +14,11 @@ import Form from './Form.vue'
         <el-divider></el-divider>
       </li>
       <li>
+        <el-button @click="$i18n.locale = 'zhCN'">中文</el-button>
+        <el-button @click="$i18n.locale = 'enUS'">英文</el-button>
+        {{ $t('message.hello') }}
+      </li>
+      <li>
         <List></List>
         <el-divider></el-divider>
       </li>

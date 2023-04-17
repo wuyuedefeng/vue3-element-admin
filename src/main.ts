@@ -2,6 +2,7 @@ import type { VNode } from 'vue'
 import { createApp, render } from 'vue'
 import { createPinia } from './stores'
 import { createRouter } from './router'
+import { createI18n } from './i18n'
 
 import App from './App.vue'
 
@@ -11,6 +12,7 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(createRouter())
+app.use(createI18n())
 
 app.mount('#app')
 
