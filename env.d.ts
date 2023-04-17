@@ -18,7 +18,7 @@ declare module 'vue-router' {
 import type { AxiosRequestConfig as VueAxiosRequestConfig } from 'axios'
 declare module 'axios' {
   interface AxiosRequestConfig extends VueAxiosRequestConfig {
-    meta: {
+    meta?: {
       retry: number /*times*/
       retryDelay: number /*ms*/
       curRetry: number /*times*/

@@ -5,6 +5,7 @@ export const useForm = (options: FormOptions) => {
   const dialogState = inject('dialogState', null)
   const state = reactive<Form>({
     model: options.model,
+    rules: options.rules || [],
     submitLoading: false,
     async onSubmit(formRef: Ref<VNodeRef>) {
       state.submitLoading = true
@@ -39,12 +40,14 @@ export const useForm = (options: FormOptions) => {
 
 export interface FormOptions {
   model: Record<string, any>
+  rules?: Record<string, any[]> | never[]
   onSubmit: () => Promise<void>
   onCancel?: () => Promise<void>
 }
 
 export interface Form {
   model: Record<string, any>
+  rules: Record<string, any[]> | never[]
   submitLoading: boolean
   onSubmit: (formRef: Ref<any>) => Promise<void>
   onCancel: () => Promise<void>
