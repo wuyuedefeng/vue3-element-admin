@@ -54,14 +54,14 @@ apiAxios.interceptors.response.use(
     if (axios.isCancel(error)) {
       // 是否主动取消
       return console.error('主动取消')
-    } else if (config!.meta.curRetry < config!.meta.retry) {
+    } else if (config?.meta && config.meta.curRetry < config!.meta.retry) {
       // 是否需要重试
       config!.meta.curRetry++
       return new Promise((resolve) => {
         setTimeout(() => {
-          console.warn(`${config!.url},请求重试: ${config!.meta.curRetry}次`)
+          console.warn(`${config!.url},请求重试: ${config.meta?.curRetry}次`)
           resolve(apiAxios(config!))
-        }, config!.meta.retryDelay)
+        }, config.meta?.retryDelay)
       })
     }
 
