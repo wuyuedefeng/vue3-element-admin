@@ -148,7 +148,7 @@ export interface TableColumn {
   index?: number | ((index: number) => number)
   label?: string
   columnKey?: string
-  prop: string
+  prop?: string
   slot?: string
   width?: string | number
   fixed?: true | 'left' | 'right'

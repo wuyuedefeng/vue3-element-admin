@@ -4,30 +4,34 @@ import { reactive, inject } from 'vue'
 export const useForm = (options: FormOptions) => {
   const dialogState = inject('dialogState', null)
   const state = reactive<Form>({
+    setFormRef: (formRef: Ref<VNodeRef>) => {
+      state.formRef = formRef
+    },
+    formRef: null,
     model: options.model,
-    rules: options.rules || [],
+    rules: options.rules || {},
     submitLoading: false,
-    async onSubmit(formRef: Ref<VNodeRef>) {
-      state.submitLoading = true
-      await (formRef as any)
-        .validate(async (valid: boolean, fields: any[]) => {
+    async onSubmit() {
+      try {
+        state.submitLoading = true
+        await (state.formRef as any).validate(async (valid: boolean, fields: any[]) => {
           if (valid) {
             await options.onSubmit()
           } else {
             console.error('error submit!', fields)
           }
         })
-        .finally(() => {
-          state.submitLoading = false
-        })
+      } finally {
+        state.submitLoading = false
+      }
     },
     async onCancel() {
       if (options.onCancel) {
         await options.onCancel()
       }
     },
-    resetFields(formRef: Ref<VNodeRef>) {
-      ;(formRef as any).resetFields()
+    resetFields() {
+      ;(state.formRef as any)?.resetFields()
     },
     close() {
       if (dialogState) {
@@ -40,17 +44,19 @@ export const useForm = (options: FormOptions) => {
 
 export interface FormOptions {
   model: Record<string, any>
-  rules?: Record<string, any[]> | never[]
+  rules?: Record<string, any[]> | {}
   onSubmit: () => Promise<void>
   onCancel?: () => Promise<void>
 }
 
 export interface Form {
+  setFormRef: (formRef: Ref<VNodeRef>) => void
+  formRef: Ref<VNodeRef> | null
   model: Record<string, any>
-  rules: Record<string, any[]> | never[]
+  rules: Record<string, any[]> | {}
   submitLoading: boolean
-  onSubmit: (formRef: Ref<any>) => Promise<void>
+  onSubmit: () => Promise<void>
   onCancel: () => Promise<void>
-  resetFields: (formRef: Ref<VNodeRef>) => void
+  resetFields: () => void
   close: () => void
 }

@@ -33,12 +33,15 @@ export default defineComponent({
       <el-table v-loading="list.isLoading" :data="list.records" v-bind="$attrs">
         <template v-for="(column, idx) in list.tableColumns" :key="idx">
           <el-table-column v-bind="column">
-            <template v-if="column.type !== 'selection'" #default="scope">
+            <template
+              v-if="['selection', 'index'].indexOf(`${column.type}`) === -1"
+              #default="scope"
+            >
               <slot :name="column.slot || `${column.prop}Column`" v-bind="scope">
                 <template v-if="!!column.render">
                   <component :is="column.render(scope)"></component>
                 </template>
-                <template v-else>{{ scope.row[column.prop] }}</template>
+                <template v-else-if="column.prop">{{ scope.row[column.prop] }}</template>
               </slot>
             </template>
           </el-table-column>

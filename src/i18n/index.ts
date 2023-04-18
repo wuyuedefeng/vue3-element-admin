@@ -5,6 +5,7 @@ import enUS from './locales/enUS'
 
 export const createI18n = (): I18n<any> => {
   const i18n = createVueI18n({
+    legacy: false,
     locale: 'zhCN', // set locale
     fallbackLocale: 'enUS', // set fallback locale
     messages: {

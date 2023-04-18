@@ -9,6 +9,7 @@ const dialog = useDialog()
 
 const list = useList({
   tableColumns: [
+    { type: 'index', width: 50 },
     {
       label: 'ID',
       prop: 'id',
