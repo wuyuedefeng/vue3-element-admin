@@ -1,6 +1,8 @@
 import type { InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import axios from 'axios'
 import NProgress from 'nprogress'
+import 'element-plus/es/components/message/style/css'
+import { ElMessage } from 'element-plus'
 import { supportAxiosRequestKey } from './supportAxiosRequestKey'
 
 // 创建 apiAxios 实例
@@ -8,14 +10,7 @@ const apiAxios = new Proxy(
   axios.create({
     // https://cn.vitejs.dev/guide/env-and-mode.html
     baseURL: import.meta.env.VITE_APP_API_BASE_URL || '/',
-    timeout: 1000 * 60,
-    meta: {
-      // 请求重试
-      retry: 0 /*times*/,
-      retryDelay: 100 /*ms*/,
-      curRetry: 0 /*times*/,
-      withProgressBar: false
-    }
+    timeout: 1000 * 60
     // paramsSerializer: (params) => qs.stringify(params, { indices: false }),
   }),
   {
@@ -29,15 +24,32 @@ const apiAxios = new Proxy(
 apiAxios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
-// 请求拦截
+// 请求拦截 - default
 apiAxios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  if (config.meta?.withProgressBar) {
+  config.meta = {
+    retry: 0 /*times*/,
+    retryDelay: 100 /*ms*/,
+    curRetry: 0 /*times*/,
+    withProgressBar: false,
+    withSuccessMessage: '',
+    ...config?.meta
+  }
+  if (config.meta!.withProgressBar) {
     NProgress.start()
   }
   return config
 })
+// 请求拦截 - custom
+apiAxios.interceptors.request.use(
+  async (config: InternalAxiosRequestConfig) => {
+    return Promise.resolve(config)
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 
-// 响应拦截
+// 响应拦截 - default
 apiAxios.interceptors.response.use(
   (response: AxiosResponse<any>) => {
     if (response.config.meta?.withProgressBar) {
@@ -56,7 +68,7 @@ apiAxios.interceptors.response.use(
       return console.error('主动取消')
     } else if (config?.meta && config.meta.curRetry < config!.meta.retry) {
       // 是否需要重试
-      config!.meta.curRetry++
+      config.meta.curRetry++
       return new Promise((resolve) => {
         setTimeout(() => {
           console.warn(`${config!.url},请求重试: ${config.meta?.curRetry}次`)
@@ -65,6 +77,22 @@ apiAxios.interceptors.response.use(
       })
     }
 
+    return Promise.reject(error)
+  }
+)
+// 响应拦截 - custom
+apiAxios.interceptors.response.use(
+  async (response: AxiosResponse<any>) => {
+    if (response.config.meta?.withSuccessMessage) {
+      ElMessage({
+        showClose: true,
+        type: 'success',
+        message: response.config.meta.withSuccessMessage
+      })
+    }
+    return Promise.resolve(response)
+  },
+  (error: AxiosError) => {
     return Promise.reject(error)
   }
 )

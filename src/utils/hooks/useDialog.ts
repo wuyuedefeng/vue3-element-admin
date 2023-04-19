@@ -127,6 +127,7 @@ export interface DialogOptions {
   modelValue?: boolean
   title?: string
   width?: string | number
+  style?: string | Record<string, any>
   fullscreen?: boolean
   modal?: boolean
   openDelay?: number

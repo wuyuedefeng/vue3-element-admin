@@ -4,7 +4,7 @@ import axios from 'axios'
 export const supportAxiosRequestKey = (apiAxios: AxiosInstance) => {
   const EXECUTOR_MAP: any = {}
   const createCancelToken = (config: InternalAxiosRequestConfig): void => {
-    const requestKey = config.meta!.requestKey
+    const requestKey = config.meta?.requestKey
     if (requestKey) {
       config.cancelToken = new axios.CancelToken((cancelExecutor: any) => {
         if (EXECUTOR_MAP[requestKey]) {
@@ -24,7 +24,7 @@ export const supportAxiosRequestKey = (apiAxios: AxiosInstance) => {
   // 请求拦截
   ;(apiAxios as AxiosInstance).interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      if (config.meta!.requestKey && /get/i.test(config.method || 'get')) {
+      if (config.meta?.requestKey && /get/i.test(config.method || 'get')) {
         createCancelToken(config)
       }
       return config

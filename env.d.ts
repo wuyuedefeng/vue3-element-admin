@@ -23,6 +23,7 @@ declare module 'axios' {
       retryDelay: number /*ms*/
       curRetry: number /*times*/
       withProgressBar: boolean
+      withSuccessMessage: string
       requestKey?: string
     }
   }
