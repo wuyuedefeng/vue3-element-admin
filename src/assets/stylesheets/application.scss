@@ -8,3 +8,15 @@
 #app {
     height: 100%;
 }
+
+.el-notification {
+    .el-notification__group {
+        flex: 1;
+        position: relative;
+
+        .el-notification__closeBtn {
+            top: 4px;
+            right: -24px;
+        }
+    }
+}

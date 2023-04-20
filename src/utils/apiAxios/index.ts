@@ -1,8 +1,8 @@
 import type { InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import axios from 'axios'
 import NProgress from 'nprogress'
-import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-plus'
+import 'element-plus/es/components/notification/style/css'
+import { ElNotification } from 'element-plus'
 import { supportAxiosRequestKey } from './supportAxiosRequestKey'
 
 // 创建 apiAxios 实例
@@ -84,15 +84,20 @@ apiAxios.interceptors.response.use(
 apiAxios.interceptors.response.use(
   async (response: AxiosResponse<any>) => {
     if (response.config.meta?.withSuccessMessage) {
-      ElMessage({
-        showClose: true,
-        type: 'success',
-        message: response.config.meta.withSuccessMessage
-      })
+      ElNotification.success({ message: response.config.meta.withSuccessMessage })
     }
     return Promise.resolve(response)
   },
   (error: AxiosError) => {
+    if (!/^2/.test(`${error.status}`)) {
+      let errorMessage = ''
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = 'Request Timeout'
+      } else {
+        errorMessage = 'Network error'
+      }
+      ElNotification.error({ message: errorMessage })
+    }
     return Promise.reject(error)
   }
 )

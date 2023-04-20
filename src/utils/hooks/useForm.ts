@@ -12,18 +12,20 @@ export const useForm = (options: FormOptions) => {
     rules: options.rules || {},
     submitLoading: false,
     async onSubmit() {
-      try {
-        state.submitLoading = true
+      state.submitLoading = true
+      // eslint-disable-next-line no-async-promise-executor
+      await new Promise(async (resolve, reject) => {
         await (state.formRef as any).validate(async (valid: boolean, fields: any[]) => {
           if (valid) {
-            await options.onSubmit()
+            resolve(await options.onSubmit().catch((e) => reject(e)))
           } else {
             console.error('error submit!', fields)
+            reject(fields)
           }
         })
-      } finally {
+      }).finally(() => {
         state.submitLoading = false
-      }
+      })
     },
     async onCancel() {
       if (options.onCancel) {
