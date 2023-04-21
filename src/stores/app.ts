@@ -30,13 +30,25 @@ export const useAppStore = defineStore('app', {
         this.tagsView.visitedRoutes.push(tag)
       }
     },
-    deleteTagsViewVisitedRoutes(route: RouteLocationNormalizedLoaded) {
+    deleteTagsViewVisitedRoutes(
+      route: RouteLocationNormalizedLoaded,
+      ops: { router: any; route: any }
+    ) {
       const visitedRoutes = this.tagsView.visitedRoutes
       const findItem = visitedRoutes.find(
         (view: RouteLocationNormalizedLoaded) => view.path === route.path
       )
       if (findItem) {
         const idx = visitedRoutes.indexOf(findItem)
+        if (ops.route.name === findItem.name) {
+          if (idx + 1 <= this.tagsView.visitedRoutes.length - 1) {
+            ops.router.push({ ...this.tagsView.visitedRoutes[idx + 1] })
+          } else if (idx - 1 >= 0) {
+            ops.router.push({ ...this.tagsView.visitedRoutes[idx - 1] })
+          } else {
+            ops.router.push({ path: '/' })
+          }
+        }
         this.tagsView.visitedRoutes.splice(idx, 1)
       }
     },

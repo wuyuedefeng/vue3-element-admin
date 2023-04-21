@@ -1,9 +1,10 @@
 <script lang="tsx" setup>
 import { watch, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { useAppStore } from '@/stores/app'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const appStore = useAppStore()
+const router = useRouter()
 const route = useRoute()
 
 watch(
@@ -17,7 +18,7 @@ watch(
 )
 
 const onDelete = (tag: any) => {
-  appStore.deleteTagsViewVisitedRoutes(tag)
+  appStore.deleteTagsViewVisitedRoutes(tag, { router, route })
 }
 
 const contextmenuState = reactive({
