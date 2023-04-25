@@ -1,10 +1,11 @@
 export type RegixOptions = {
-  regex: RegExp
+  regex?: RegExp
   message?: string
   trigger?: string | string[]
 }
 
 export default function (options: RegixOptions) {
+  console.assert(!!options.regex, 'regex params must pass')
   function regexValidator(rule: any, value: any, callback: any) {
     if (options.regex && value && !value.match(options.regex)) {
       return callback(new Error('匹配失败'))

@@ -1,7 +1,20 @@
 import type { Router, RouteRecord, RouteRecordRaw } from 'vue-router'
 
 export const useRoute = (route: RouteRecordRaw): RouteRecordRaw => {
-  return route
+  const { component, ...finalRoute } = route
+
+  // component
+  if (typeof route['component'] === 'function') {
+    ;(finalRoute as any)['component'] = async () => {
+      const module = await (route as any)['component']()
+      module.default.name = route.name
+      return module
+    }
+  } else {
+    ;(finalRoute as any)['component'] = component
+  }
+
+  return finalRoute as RouteRecordRaw
 }
 
 export const useRoutes = (routes: RouteRecordRaw[]) => {
