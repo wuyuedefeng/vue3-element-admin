@@ -54,8 +54,13 @@ export default defineComponent({
       <el-pagination
         small
         background
-        layout="total, prev, pager, next, jumper"
+        layout="total, sizes, prev, pager, next, jumper"
+        :current-page="list.pagination.pageNo"
+        :page-size="list.pagination.pageSize"
+        :page-sizes="[10, 20, 30, 50, 100]"
         :total="list.pagination.totalCount"
+        @current-change="list.pagination.onCurrentChange"
+        @size-change="list.pagination.onSizeChange"
         class="mt-4"
       />
     </template>

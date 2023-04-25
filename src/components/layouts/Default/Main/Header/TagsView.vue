@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import { watch, reactive, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -7,6 +7,7 @@ const appStore = useAppStore()
 const router = useRouter()
 const route = useRoute()
 
+const scrollRef = ref(null)
 watch(
   () => route.meta?.title,
   (nTitle) => {
@@ -52,8 +53,17 @@ const contextmenuState = reactive({
   }
 })
 
+const scrollLeft = ref(0)
+const onScroll = (params: { scrollLeft: number }) => {
+  scrollLeft.value = params.scrollLeft
+}
+
 onMounted(() => {
   document.addEventListener('click', contextmenuState.closeMenu)
+  ;(scrollRef.value as any).wrapRef.addEventListener('wheel', (evt: WheelEvent) => {
+    evt.preventDefault()
+    ;(scrollRef.value as any).setScrollLeft(scrollLeft.value + evt.deltaY)
+  })
 })
 onBeforeUnmount(() => {
   document.removeEventListener('click', contextmenuState.closeMenu)
@@ -62,7 +72,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="tags-view">
-    <el-scrollbar :vertical="false">
+    <el-scrollbar ref="scrollRef" :vertical="false" @scroll="onScroll">
       <div class="flex">
         <template v-for="tag in appStore.tagsView.visitedRoutes" :key="tag.path || tag.name">
           <router-link
@@ -94,6 +104,7 @@ onBeforeUnmount(() => {
     padding: 2px 5px;
     border: 1px solid #d8dce5;
     border-radius: 2px;
+    flex-shrink: 0;
 
     &.router-link-active {
       background-color: #42b983;
@@ -115,6 +126,7 @@ onBeforeUnmount(() => {
       padding: 2px;
       border-radius: 50%;
       transform: scale(0.8);
+
       &:hover {
         background-color: #aaa;
         color: #fff;

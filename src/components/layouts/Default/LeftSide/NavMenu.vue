@@ -57,7 +57,10 @@ const onMenuItemClick = (route: any) => {
 </template>
 
 <style lang="scss" scoped>
-.el-menu:not(.el-menu--collapse) {
-  width: 200px;
+.el-menu {
+  width: 250px;
+  &.el-menu--collapse {
+    width: 100px;
+  }
 }
 </style>

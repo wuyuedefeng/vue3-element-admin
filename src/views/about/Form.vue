@@ -1,12 +1,12 @@
 <script lang="tsx" setup>
 import { useForm } from '@/utils/hooks/useForm'
 
-defineProps({
+const props = defineProps({
   record: [Object]
 })
 const emits = defineEmits(['submit'])
 const form = useForm({
-  model: {},
+  model: { ...props.record },
   async onSubmit() {
     emits('submit')
   }
