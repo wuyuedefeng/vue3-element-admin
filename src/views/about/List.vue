@@ -46,6 +46,7 @@ const onShow = (record: Object) => {
 const onCreate = () => {
   const instance = dialog.create({
     title: '新增',
+    closeOnClickModal: false,
     slots: {
       default: () => createVNode(defineAsyncComponent(() => import('./Form.vue')))
     }
@@ -56,6 +57,7 @@ const onCreate = () => {
 const onEdit = (record: Object) => {
   const instance = dialog.create({
     title: '编辑',
+    closeOnClickModal: false,
     slots: {
       default: () =>
         createVNode(
@@ -72,7 +74,7 @@ const onEdit = (record: Object) => {
   console.log(instance)
 }
 
-const onDelete = async (record: Object) => {
+const onDelete = async (record: any) => {
   // eslint-disable-next-line no-undef
   ElMessageBox.confirm('确定删除条目?', '确认消息', {
     type: 'warning' /*, confirmButtonText: 'OK' */ /* cancelButtonText: 'Cancel'*/
@@ -100,9 +102,25 @@ const onDelete = async (record: Object) => {
           </el-form-item>
         </el-form>
         <div class="operations text-right">
-          <el-button type="primary" @click="onCreate">
-            <template #icon><i-ep-plus /></template>新增
-          </el-button>
+          <el-space>
+            <el-button type="primary" @click="onCreate">
+              <template #icon><i-ep-plus /></template>新增
+            </el-button>
+            <el-button>
+              <template #icon><i-ep-download /></template>导出
+            </el-button>
+            <el-dropdown trigger="click">
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item> <i-ep-download />导出模板 </el-dropdown-item>
+                  <el-dropdown-item> <i-ep-upload />批量导入 </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+              <el-button>
+                <template #icon><i-ep-upload /></template>导入
+              </el-button>
+            </el-dropdown>
+          </el-space>
         </div>
       </template>
       <template #actionsColumn="{ row }">

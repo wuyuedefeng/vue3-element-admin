@@ -108,6 +108,7 @@ export const useList = (options: ListOptions) => {
         .catch((err: Error) => {
           // state.isError = true
           state.errorInfo = err
+          throw err
         })
         .finally(() => {
           state.isLoading = false

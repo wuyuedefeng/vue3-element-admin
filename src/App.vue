@@ -32,24 +32,12 @@ provide('configProvider', configProvider)
         </div>
       </header>
       <router-view v-slot="{ Component }">
-        <transition name="fade">
-          <keep-alive :include="appStore.visitedRouteNames" :max="10">
-            <component :is="Component" />
-          </keep-alive>
-        </transition>
+        <keep-alive :include="appStore.cachedRouteNames" :max="10">
+          <component :is="Component" :key="$route.fullPath" />
+        </keep-alive>
       </router-view>
     </DefaultLayout>
   </el-config-provider>
 </template>
 
-<style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -105,6 +105,7 @@ onBeforeUnmount(() => {
     border: 1px solid #d8dce5;
     border-radius: 2px;
     flex-shrink: 0;
+    background: #fff;
 
     &.router-link-active {
       background-color: #42b983;

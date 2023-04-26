@@ -10,7 +10,7 @@ const appStore = useAppStore()
     <el-main class="p-0 flex flex-col">
       <Header></Header>
       <el-scrollbar class="w-full flex-1">
-        <el-main>
+        <el-main class="main-body">
           <slot></slot>
         </el-main>
       </el-scrollbar>
@@ -20,10 +20,16 @@ const appStore = useAppStore()
     <el-main class="p-0 flex flex-col">
       <el-scrollbar class="w-full flex-1">
         <Header></Header>
-        <el-main>
+        <el-main class="main-body">
           <slot></slot>
         </el-main>
       </el-scrollbar>
     </el-main>
   </template>
 </template>
+
+<style lang="scss" scoped>
+.main-body {
+  min-width: 500px;
+}
+</style>

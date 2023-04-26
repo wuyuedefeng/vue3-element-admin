@@ -30,6 +30,7 @@ const ModalComponent = defineComponent({
         }
       }
     })
+    provide('configProvider', props.configProvider)
     const dialogSlots = reactive(slots)
     provide(
       'dialogState',

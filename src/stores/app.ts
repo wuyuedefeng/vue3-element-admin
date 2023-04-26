@@ -11,12 +11,11 @@ export const useAppStore = defineStore('app', {
       popperEffect: 'dark'
     },
     tagsView: {
-      visitedRoutes: [],
-      cachedRoutes: []
+      visitedRoutes: []
     }
   }),
   getters: {
-    visitedRouteNames: (state) =>
+    cachedRouteNames: (state) =>
       state.tagsView.visitedRoutes.map((view: RouteLocationNormalizedLoaded) => view.name)
   },
   actions: {
