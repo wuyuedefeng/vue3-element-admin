@@ -51,6 +51,7 @@ const ModalComponent = defineComponent({
     }
   },
   render() {
+    console.log(22221)
     const dialog = createVNode(ElDialog, this.dialogState, this.dialogSlots)
     return this.configProvider
       ? createVNode(

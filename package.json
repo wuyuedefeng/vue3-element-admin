@@ -37,6 +37,7 @@
   "devDependencies": {
     "@iconify-json/ep": "^1.1.10",
     "@rushstack/eslint-patch": "^1.2.0",
+    "@types/lodash-es": "^4.17.7",
     "@types/node": "^18.15.11",
     "@types/nprogress": "^0.2.0",
     "@vitejs/plugin-vue": "^4.1.0",
