@@ -30,7 +30,6 @@ const ModalComponent = defineComponent({
         }
       }
     })
-    provide('configProvider', props.configProvider)
     const dialogSlots = reactive(slots)
     provide(
       'dialogState',
@@ -43,6 +42,7 @@ const ModalComponent = defineComponent({
         }
       })
     )
+    provide('configProvider', props.configProvider)
     provide('dialogSlots', dialogSlots)
 
     return {
@@ -51,7 +51,6 @@ const ModalComponent = defineComponent({
     }
   },
   render() {
-    console.log(22221)
     const dialog = createVNode(ElDialog, this.dialogState, this.dialogSlots)
     return this.configProvider
       ? createVNode(
@@ -95,6 +94,7 @@ export const useDialog = (defaultOptions: DialogOptions | {} = {}) => {
       document.body.appendChild(div)
 
       const modelValue = ref(true)
+      const slotsCache = {}
 
       const modalVNode = createVNode(ModalComponent, {
         options: {
@@ -102,6 +102,19 @@ export const useDialog = (defaultOptions: DialogOptions | {} = {}) => {
           ...defaultOptions,
           ...options,
           modelValue,
+          slots: Object.assign(
+            {},
+            ...Object.keys(options.slots).map((key) => {
+              return {
+                [key]: () => {
+                  if (typeof (options.slots as any)?.[key] === 'function') {
+                    ;(slotsCache as any)[key] ||= (options.slots as any)[key]()
+                  }
+                  return (slotsCache as any)[key]
+                }
+              }
+            })
+          ),
           onClosed() {
             app.render(null, div)
             div.parentNode?.removeChild(div)

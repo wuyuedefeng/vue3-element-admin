@@ -109,16 +109,13 @@ const onDelete = async (record: any) => {
             <el-button>
               <template #icon><i-ep-download /></template>导出
             </el-button>
-            <el-dropdown trigger="click">
+            <el-dropdown trigger="click" split-button>
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item> <i-ep-download />导出模板 </el-dropdown-item>
-                  <el-dropdown-item> <i-ep-upload />批量导入 </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
-              <el-button>
-                <template #icon><i-ep-upload /></template>导入
-              </el-button>
+              <i-ep-upload />导入
             </el-dropdown>
           </el-space>
         </div>
