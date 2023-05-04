@@ -30,7 +30,12 @@ export default defineComponent({
   <slot name="actions" v-bind="{ list }"></slot>
   <slot v-bind="{ list }">
     <template v-if="defaultTableSlot">
-      <el-table v-loading="list.isLoading" :data="list.records" v-bind="$attrs">
+      <el-table
+        :ref="list.setListRef"
+        v-loading="list.isLoading"
+        :data="list.records"
+        v-bind="$attrs"
+      >
         <template v-for="(column, idx) in list.tableColumns" :key="idx">
           <el-table-column v-bind="column">
             <template

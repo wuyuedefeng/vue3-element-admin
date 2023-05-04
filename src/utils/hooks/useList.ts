@@ -1,4 +1,4 @@
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, Ref, VNodeRef } from 'vue'
 import { reactive, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -14,6 +14,10 @@ export const useList = (options: ListOptions) => {
     routeQ = {}
   }
   const state = reactive<List>({
+    setListRef: (listRef: Ref<VNodeRef>) => {
+      state.listRef = listRef
+    },
+    listRef: null,
     supportUrlQuery: options.supportUrlQuery || true,
     fetchCount: 0,
     isRefreshing: false,
@@ -172,6 +176,8 @@ export interface ListPagination {
 }
 
 export interface List {
+  setListRef: (formRef: Ref<VNodeRef>) => void
+  listRef: Ref<VNodeRef> | null
   supportUrlQuery: boolean
   fetchCount: number
   isRefreshing: boolean

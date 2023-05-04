@@ -98,7 +98,9 @@ const onDelete = async (record: any) => {
             <el-button type="primary" :loading="list.isLoading" @click="list.onLoad()">
               <template #icon><i-ep-search /></template>搜索
             </el-button>
-            <el-button @click="list.onReset()">重置</el-button>
+            <el-button @click="list.onReset()">
+              <template #icon><i-ep-refresh /></template>重置
+            </el-button>
           </el-form-item>
         </el-form>
         <div class="operations text-right">
