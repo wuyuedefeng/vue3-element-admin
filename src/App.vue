@@ -33,7 +33,7 @@ provide('configProvider', configProvider)
       </header>
       <router-view v-slot="{ Component }">
         <keep-alive :include="appStore.cachedRouteNames" :max="10">
-          <component :is="Component" :key="$route.fullPath" />
+          <component :is="Component" :key="$route.path" />
         </keep-alive>
       </router-view>
     </DefaultLayout>
