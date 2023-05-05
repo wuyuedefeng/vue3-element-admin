@@ -62,6 +62,17 @@ export default defineConfig(async (params: ConfigEnv) => {
         // }
       }
       // postcss: {}
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'lodash-es': ['lodash-es'],
+            'element-plus': ['element-plus'],
+            echarts: ['echarts', 'echarts-gl']
+          }
+        }
+      }
     }
   }
 })
@@ -88,7 +99,7 @@ function generatePlugins(): Plugin[] {
     Components({
       dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url)),
       resolvers: [
-        ElementPlusResolver({ importStyle: true }),
+        ElementPlusResolver({ importStyle: false }),
         IconsResolver({
           // https://github.com/sxzz/element-plus-best-practices/blob/main/src/App.vue
           enabledCollections: ['ep'], // elelemt-plus图标库， eg： <i-ep-refresh />

@@ -18,7 +18,7 @@ export const useList = (options: ListOptions) => {
       state.listRef = listRef
     },
     listRef: null,
-    supportUrlQuery: options.supportUrlQuery || true,
+    supportUrlQuery: options.supportUrlQuery === false ? false : true,
     fetchCount: 0,
     isRefreshing: false,
     isLoading: false,
@@ -148,7 +148,7 @@ export interface ListOptions {
   pagination?: ListPagination
 }
 
-export interface TableColumn {
+export interface TableColumn extends Record<string, any> {
   type?: 'selection' | 'index' | 'expand'
   index?: number | ((index: number) => number)
   label?: string
@@ -156,7 +156,9 @@ export interface TableColumn {
   prop?: string
   slot?: string
   width?: string | number
+  minWidth?: string | number
   fixed?: true | 'left' | 'right'
+  showOverflowTooltip?: boolean
   renderHeader?: (param: { column: TableColumn; $index: number }) => JSX.Element
   render?: (scope: { row: any; column: TableColumn; $index: number }) => JSX.Element
 }

@@ -2,7 +2,7 @@
 import { createVNode, defineAsyncComponent } from 'vue'
 import { useList } from '@/utils/hooks/useList'
 import { useDialog } from '@/utils/hooks/useDialog'
-import { ElTag } from 'element-plus'
+import { ElTag, ElMessageBox } from 'element-plus'
 
 const dialog = useDialog()
 

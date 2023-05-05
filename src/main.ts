@@ -6,6 +6,7 @@ import { createI18n } from './i18n'
 
 import App from './App.vue'
 
+import 'element-plus/dist/index.css'
 import './assets/stylesheets/application.scss'
 
 const app = createApp(App)
