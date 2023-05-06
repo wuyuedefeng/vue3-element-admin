@@ -43,7 +43,7 @@ export default defineComponent({
               #default="scope"
             >
               <slot :name="column.slot || `${column.prop}Column`" v-bind="scope">
-                <template v-if="!!column.render">
+                <template v-if="!!column.render && Object.keys(scope.row).length">
                   <component :is="column.render(scope)"></component>
                 </template>
                 <template v-else-if="column.prop">{{ scope.row[column.prop] }}</template>
