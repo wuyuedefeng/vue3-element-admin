@@ -15,12 +15,23 @@ export const useAppStore = defineStore('app', {
     }
   }),
   getters: {
-    cachedRouteNames: (state) =>
-      state.tagsView.visitedRoutes.map((view: RouteLocationNormalizedLoaded) => view.name)
+    cachedRouteNames: (state) => {
+      const routeNames = []
+      for (const route of state.tagsView.visitedRoutes) {
+        let routeName = route.name
+        while (routeName) {
+          if (routeNames.indexOf(routeName) === -1) {
+            routeNames.push(routeName)
+          }
+          routeName = routeName.split('/').slice(0, -1).join('/')
+        }
+      }
+      return routeNames
+    }
   },
   actions: {
     addTagsViewVisitedRoutes(route: RouteLocationNormalizedLoaded) {
-      if (!route?.name || !route?.meta?.title) return
+      if (!route?.name || !route?.meta?.title || route?.meta?.ignoreCache) return
       const tag = { path: route.path, name: route.name, meta: route.meta, query: route.query }
       const visitedRoutes = this.tagsView.visitedRoutes
       const findItem = visitedRoutes.find(
@@ -43,16 +54,12 @@ export const useAppStore = defineStore('app', {
       )
       if (findItem) {
         const idx = visitedRoutes.indexOf(findItem)
-        console.log(111, findItem, idx, ops)
         if (ops.route.name === findItem.name) {
           if (idx + 1 <= this.tagsView.visitedRoutes.length - 1) {
-            console.log(0)
             ops.router.push({ ...this.tagsView.visitedRoutes[idx + 1] })
           } else if (idx - 1 >= 0) {
-            console.log(1, this.tagsView.visitedRoutes[idx - 1])
             ops.router.push({ ...this.tagsView.visitedRoutes[idx - 1] })
           } else {
-            console.log(2)
             ops.router.push({ path: '/' })
           }
         }

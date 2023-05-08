@@ -2,6 +2,7 @@
 import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import type { List } from '@/utils/hooks/useList'
+import { get } from 'lodash-es'
 
 export default defineComponent({
   inheritAttrs: false,
@@ -20,7 +21,7 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    return { get }
   }
 })
 </script>
@@ -46,7 +47,10 @@ export default defineComponent({
                 <template v-if="!!column.render && Object.keys(scope.row).length">
                   <component :is="column.render(scope)"></component>
                 </template>
-                <template v-else-if="column.prop">{{ scope.row[column.prop] }}</template>
+                <template
+                  v-else-if="column.prop"
+                  >{{ get((scope as any).row, column.prop, '') }}</template
+                >
               </slot>
             </template>
           </el-table-column>
