@@ -1,11 +1,11 @@
 <script lang="tsx" setup>
 import { provide } from 'vue'
-import { useAppStore } from './store/app'
+import { useTagsViewStore } from '@/store/tagsView'
 import DefaultLayout from '@/components/layouts/Default/index.vue'
 // @ts-ignore
 import zhCN from 'element-plus/dist/locale/zh-cn.mjs'
 
-const appStore = useAppStore()
+const tagsViewStore = useTagsViewStore()
 const configProvider = {
   locale: zhCN
 }
@@ -33,7 +33,7 @@ provide('configProvider', configProvider)
           </div>
         </header>
         <router-view v-slot="{ Component }">
-          <keep-alive :include="appStore.cachedRouteNames" :max="10">
+          <keep-alive :include="tagsViewStore.cachedRouteNames" :max="10">
             <component :is="Component" />
           </keep-alive>
         </router-view>

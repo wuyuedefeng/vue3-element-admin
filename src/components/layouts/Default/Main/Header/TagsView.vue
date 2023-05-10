@@ -1,9 +1,9 @@
 <script lang="tsx" setup>
 import { ref, watch, reactive, onMounted, onBeforeUnmount } from 'vue'
-import { useAppStore } from '@/store/app'
+import { useTagsViewStore } from '@/store/tagsView'
 import { useRouter, useRoute } from 'vue-router'
 
-const appStore = useAppStore()
+const tagsViewStore = useTagsViewStore()
 const router = useRouter()
 const route = useRoute()
 
@@ -12,14 +12,14 @@ watch(
   () => route.meta?.title,
   (nTitle) => {
     if (nTitle) {
-      appStore.addTagsViewVisitedRoutes(route)
+      tagsViewStore.addVisitedRoutes(route)
     }
   },
   { immediate: true }
 )
 
 const onDelete = (tag: any) => {
-  appStore.deleteTagsViewVisitedRoutes(tag, { router, route })
+  tagsViewStore.deleteVisitedRoutes(tag, { router, route })
 }
 
 const contextmenuState = reactive({
@@ -40,13 +40,13 @@ const contextmenuState = reactive({
     contextmenuState.visible = true
   },
   closeOtherTags() {
-    appStore.deleteTagsViewOtherRoutes(contextmenuState.route)
+    tagsViewStore.deleteOtherRoutes(contextmenuState.route)
   },
   closeLeftTags() {
-    appStore.deleteTagsViewLeftRoutes(contextmenuState.route)
+    tagsViewStore.deleteLeftRoutes(contextmenuState.route)
   },
   closeRightTags() {
-    appStore.deleteTagsViewRightRoutes(contextmenuState.route)
+    tagsViewStore.deleteRightRoutes(contextmenuState.route)
   },
   closeMenu() {
     contextmenuState.visible = false
@@ -74,7 +74,7 @@ onBeforeUnmount(() => {
   <div class="tags-view">
     <el-scrollbar ref="scrollRef" :vertical="false" @scroll="onScroll">
       <div class="flex">
-        <template v-for="tag in appStore.tagsView.visitedRoutes" :key="tag.path || tag.name">
+        <template v-for="tag in tagsViewStore.visitedRoutes" :key="tag.path || tag.name">
           <router-link
             class="router-item"
             :to="{ path: tag.path, query: tag.query }"
