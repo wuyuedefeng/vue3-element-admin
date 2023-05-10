@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import type { RouteRecord } from 'vue-router'
 import { useRouter, useRoute } from 'vue-router'
-import { useAppStore } from '@/stores/app'
+import { useAppStore } from '@/store/app'
 const appStore = useAppStore()
 const router = useRouter()
 const route = useRoute()

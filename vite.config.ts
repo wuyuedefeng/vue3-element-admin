@@ -102,7 +102,7 @@ function generatePlugins(): Plugin[] {
         ElementPlusResolver({ importStyle: false }),
         IconsResolver({
           // https://github.com/sxzz/element-plus-best-practices/blob/main/src/App.vue
-          enabledCollections: ['ep'], // elelemt-plus图标库， eg： <i-ep-refresh />
+          enabledCollections: ['ep'], // element-plus图标库， eg： <i-ep-refresh />
           alias: { svg2: 'svg-inline' },
           customCollections: ['svg', 'svg-inline']
         })

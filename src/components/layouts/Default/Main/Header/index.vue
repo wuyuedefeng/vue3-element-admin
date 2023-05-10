@@ -4,7 +4,7 @@
 import Breadcrumb from './Breadcrumb.vue'
 import Humburger from './Humburger.vue'
 import TagsView from './TagsView.vue'
-import { useAppStore } from '@/stores/app'
+import { useAppStore } from '@/store/app'
 
 const appStore = useAppStore()
 

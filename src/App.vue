@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 import { provide } from 'vue'
-import { useAppStore } from './stores/app'
+import { useAppStore } from './store/app'
 import DefaultLayout from '@/components/layouts/Default/index.vue'
 // @ts-ignore
 import zhCN from 'element-plus/dist/locale/zh-cn.mjs'

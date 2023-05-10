@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 import Header from './Header/index.vue'
-import { useAppStore } from '@/stores/app'
+import { useAppStore } from '@/store/app'
 
 const appStore = useAppStore()
 </script>

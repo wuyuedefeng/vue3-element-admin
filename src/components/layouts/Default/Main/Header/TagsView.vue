@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 import { ref, watch, reactive, onMounted, onBeforeUnmount } from 'vue'
-import { useAppStore } from '@/stores/app'
+import { useAppStore } from '@/store/app'
 import { useRouter, useRoute } from 'vue-router'
 
 const appStore = useAppStore()
