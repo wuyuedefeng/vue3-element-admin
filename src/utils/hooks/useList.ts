@@ -3,16 +3,17 @@ import { reactive, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const DEFAULT_PAGE_SIZE = 20
-export const useList = (options: ListOptions) => {
+export const useList = (options: ListOptions): List => {
   const router = useRouter()
   const route = useRoute()
-  let self: any = null
+  // let self: any = null
   let routeQ = {}
   try {
     routeQ = route.query?.q ? JSON.parse(route.query.q as string) : {}
   } catch (e) {
     routeQ = {}
   }
+  // @ts-ignore
   const state = reactive<List>({
     setListRef: (listRef: Ref<VNodeRef>) => {
       state.listRef = listRef
@@ -23,7 +24,7 @@ export const useList = (options: ListOptions) => {
     isRefreshing: false,
     isLoading: false,
     isFinished: false,
-    isError: computed<boolean>(() => !!self?.errorInfo),
+    isError: computed<boolean>(() => !!state.errorInfo),
     // isError: false,
     errorInfo: null,
     query: { ...options.query, ...routeQ },
@@ -35,12 +36,12 @@ export const useList = (options: ListOptions) => {
       totalPage: 1,
       totalCount: 0,
       onCurrentChange(pageNo: number) {
-        self.pagination.pageNo = pageNo
-        self.onLoad()
+        state.pagination.pageNo = pageNo
+        state.onLoad()
       },
       onSizeChange(pageSize: number) {
-        self.pagination.pageSize = pageSize
-        self.onLoad()
+        state.pagination.pageSize = pageSize
+        state.onLoad()
       },
       ...options.pagination
     },
@@ -56,7 +57,7 @@ export const useList = (options: ListOptions) => {
         records: [],
         tableColumns: options.tableColumns ? [...options.tableColumns] : [],
         pagination: {
-          ...self.pagination,
+          ...state.pagination,
           pageNo: 1,
           pageSize: DEFAULT_PAGE_SIZE,
           totalPage: 1,
@@ -69,7 +70,7 @@ export const useList = (options: ListOptions) => {
       state.records = [] // 清空列表数据
       state.isFinished = false
       state.isRefreshing = true
-      await state.onLoad(moreQuery)
+      return await state.onLoad(moreQuery)
     },
     async onLoad(moreQuery: ListQuery = {}, shouldReset = false) {
       if (moreQuery instanceof Event) {
@@ -83,10 +84,14 @@ export const useList = (options: ListOptions) => {
       }
       if (Object.prototype.hasOwnProperty.call(moreQuery, 'pageNo')) {
         state.pagination.pageNo = pageNo as number
-        state.query.pageNo = state.pagination.pageNo
       }
       if (Object.prototype.hasOwnProperty.call(moreQuery, 'pageSize')) {
         state.pagination.pageSize = pageSize as number
+      }
+      if (Object.prototype.hasOwnProperty.call(state.query, 'pageNo')) {
+        state.query.pageNo = state.pagination.pageNo
+      }
+      if (Object.prototype.hasOwnProperty.call(state.query, 'pageSize')) {
         state.query.pageSize = state.pagination.pageSize
       }
       state.isLoading = true
@@ -123,10 +128,10 @@ export const useList = (options: ListOptions) => {
         customQuery = {}
       }
       state.initState()
-      state.onLoad(customQuery, true)
+      return await state.onLoad(customQuery, true)
     }
   })
-  self = state
+  // self = state
   return state
 }
 
@@ -192,7 +197,7 @@ export interface List {
   tableColumns: TableColumn[]
   pagination: ListPagination
   initState: () => void
-  onRefresh: () => void
-  onLoad: (query?: ListQuery, shouldReset?: boolean) => void
-  onReset: (query?: ListQuery) => void
+  onRefresh: () => Promise<void>
+  onLoad: (query?: ListQuery, shouldReset?: boolean) => Promise<void>
+  onReset: (query?: ListQuery) => Promise<void>
 }

@@ -144,6 +144,7 @@ onBeforeUnmount(() => {
   padding: 5px 0;
   font-size: 12px;
   text-align: center;
+  z-index: 100;
 
   li {
     line-height: 30px;
