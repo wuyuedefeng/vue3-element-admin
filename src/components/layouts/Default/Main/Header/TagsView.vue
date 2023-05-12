@@ -9,11 +9,9 @@ const route = useRoute()
 
 const scrollRef = ref(null)
 watch(
-  () => route.meta?.title,
-  (nTitle) => {
-    if (nTitle) {
-      tagsViewStore.addVisitedRoutes(route)
-    }
+  () => route.fullPath,
+  () => {
+    tagsViewStore.addVisitedRoutes(route)
   },
   { immediate: true }
 )

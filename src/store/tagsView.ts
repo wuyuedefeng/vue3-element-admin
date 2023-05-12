@@ -22,11 +22,11 @@ export const useTagsViewStore = defineStore('tagsView', {
   },
   actions: {
     addVisitedRoutes(route: RouteLocationNormalizedLoaded) {
-      if (!route?.name || !route?.meta?.title || route?.meta?.ignoreCache) return
+      if (!route?.name || !route?.meta?.title) return
       const tag = { path: route.path, name: route.name, meta: route.meta, query: route.query }
       const visitedRoutes = this.visitedRoutes
       const findItem = visitedRoutes.find(
-        (route: RouteLocationNormalizedLoaded) => route.path === tag.path
+        (route: RouteLocationNormalizedLoaded) => route.name === tag.name
       )
       if (findItem) {
         const idx = visitedRoutes.indexOf(findItem)
@@ -38,7 +38,7 @@ export const useTagsViewStore = defineStore('tagsView', {
     deleteVisitedRoutes(route: RouteLocationNormalizedLoaded, ops: { router: any; route: any }) {
       const visitedRoutes = this.visitedRoutes
       const findItem = visitedRoutes.find(
-        (view: RouteLocationNormalizedLoaded) => view.path === route.path
+        (view: RouteLocationNormalizedLoaded) => view.name === route.name
       )
       if (findItem) {
         const idx = visitedRoutes.indexOf(findItem)
@@ -63,7 +63,7 @@ export const useTagsViewStore = defineStore('tagsView', {
       if (!route) return
       const visitedRoutes: RouteLocationNormalizedLoaded[] = this.visitedRoutes
       const findItem = visitedRoutes.find(
-        (view: RouteLocationNormalizedLoaded) => view.path === route.path
+        (view: RouteLocationNormalizedLoaded) => view.name === route.name
       )
       if (findItem) {
         const idx = visitedRoutes.indexOf(findItem)
@@ -74,7 +74,7 @@ export const useTagsViewStore = defineStore('tagsView', {
       if (!route) return
       const visitedRoutes: RouteLocationNormalizedLoaded[] = this.visitedRoutes
       const findItem = visitedRoutes.find(
-        (view: RouteLocationNormalizedLoaded) => view.path === route.path
+        (view: RouteLocationNormalizedLoaded) => view.name === route.name
       )
       if (findItem) {
         const idx = visitedRoutes.indexOf(findItem)
