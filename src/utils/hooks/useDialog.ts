@@ -138,11 +138,10 @@ export const useDialog = (defaultOptions: DialogOptions | {} = {}) => {
   }
 }
 
-export interface DialogOptions {
+export interface DialogOptions extends Record<string, any> {
   modelValue?: boolean
   title?: string
   width?: string | number
-  style?: string | Record<string, any>
   fullscreen?: boolean
   modal?: boolean
   openDelay?: number
