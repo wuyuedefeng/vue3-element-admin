@@ -1,10 +1,11 @@
-export type RegixOptions = {
+import type { ComputedRef } from 'vue'
+export type RegexOptions = {
   regex?: RegExp
-  message?: string
+  message?: string | ComputedRef<string>
   trigger?: string | string[]
 }
 
-export default function (options: RegixOptions) {
+export default function (options: RegexOptions) {
   console.assert(!!options.regex, 'regex params must pass')
   function regexValidator(rule: any, value: any, callback: any) {
     if (options.regex && value && !value.match(options.regex)) {
@@ -15,7 +16,7 @@ export default function (options: RegixOptions) {
   return Object.assign(
     {
       validator: regexValidator,
-      message: options.message || '格式错误',
+      message: options.message ?? '校验不通过',
       trigger: options.trigger || 'blur'
     },
     options

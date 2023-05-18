@@ -1,17 +1,21 @@
 import type { ComputedRef, Ref, VNodeRef } from 'vue'
-import { reactive, computed } from 'vue'
+import type { FormInstance } from 'element-plus'
+import { reactive, computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { trimQuery } from '@/utils/libs'
 
-const DEFAULT_PAGE_SIZE = 20
+const DEFAULT_PAGE_SIZE = 10
 export const useList = (options: ListOptions): List => {
   const router = useRouter()
   const route = useRoute()
   // let self: any = null
   let routeQ = {}
-  try {
-    routeQ = route.query?.q ? JSON.parse(route.query.q as string) : {}
-  } catch (e) {
-    routeQ = {}
+  if (options.supportUrlQuery !== false) {
+    try {
+      routeQ = route.query?.q ? JSON.parse(route.query.q as string) : {}
+    } catch (e) {
+      routeQ = {}
+    }
   }
   // @ts-ignore
   const state = reactive<List>({
@@ -19,6 +23,10 @@ export const useList = (options: ListOptions): List => {
       state.listRef = listRef
     },
     listRef: null,
+    setFormRef: (formRef: Ref<FormInstance>) => {
+      state.formRef = formRef
+    },
+    formRef: null,
     supportUrlQuery: options.supportUrlQuery === false ? false : true,
     fetchCount: 0,
     isRefreshing: false,
@@ -31,8 +39,8 @@ export const useList = (options: ListOptions): List => {
     records: [],
     tableColumns: options.tableColumns ? [...options.tableColumns] : [],
     pagination: {
-      pageNo: 1,
-      pageSize: DEFAULT_PAGE_SIZE,
+      pageNo: (routeQ as any).pageNo || 1,
+      pageSize: (routeQ as any).pageSize || DEFAULT_PAGE_SIZE,
       totalPage: 1,
       totalCount: 0,
       onCurrentChange(pageNo: number) {
@@ -46,7 +54,7 @@ export const useList = (options: ListOptions): List => {
       ...options.pagination
     },
     initState() {
-      Object.assign(self, {
+      Object.assign(state, {
         fetchCount: 0,
         isRefreshing: false,
         isLoading: false,
@@ -58,8 +66,8 @@ export const useList = (options: ListOptions): List => {
         tableColumns: options.tableColumns ? [...options.tableColumns] : [],
         pagination: {
           ...state.pagination,
-          pageNo: 1,
-          pageSize: DEFAULT_PAGE_SIZE,
+          pageNo: (routeQ as any).pageNo || 1,
+          pageSize: (routeQ as any).pageSize || DEFAULT_PAGE_SIZE,
           totalPage: 1,
           totalCount: 0,
           ...options.pagination
@@ -73,6 +81,17 @@ export const useList = (options: ListOptions): List => {
       return await state.onLoad(moreQuery)
     },
     async onLoad(moreQuery: ListQuery = {}, shouldReset = false) {
+      if (state.formRef) {
+        await new Promise((resolve, reject) => {
+          state.formRef.validate((valid: boolean, fields: any[]) => {
+            if (valid) {
+              resolve(valid)
+            } else {
+              reject(fields)
+            }
+          })
+        })
+      }
       if (moreQuery instanceof Event) {
         moreQuery = {}
       }
@@ -117,6 +136,7 @@ export const useList = (options: ListOptions): List => {
         .catch((err: Error) => {
           // state.isError = true
           state.errorInfo = err
+          state.records = []
           throw err
         })
         .finally(() => {
@@ -128,21 +148,15 @@ export const useList = (options: ListOptions): List => {
         customQuery = {}
       }
       state.initState()
-      return await state.onLoad(customQuery, true)
+      return state.formRef
+        ? await nextTick(async () => {
+            return await state.onLoad(customQuery, true)
+          })
+        : await state.onLoad(customQuery, true)
     }
   })
   // self = state
   return state
-}
-
-export function trimQuery(query: ListQuery) {
-  const newQuery: ListQuery = {}
-  for (const key in query) {
-    if ([undefined, null, ''].indexOf(query[key]) === -1) {
-      newQuery[key] = query[key]
-    }
-  }
-  return newQuery
 }
 
 export interface ListOptions {
@@ -185,6 +199,8 @@ export interface ListPagination {
 export interface List {
   setListRef: (formRef: Ref<VNodeRef>) => void
   listRef: Ref<VNodeRef> | null
+  setFormRef: (formRef: Ref<FormInstance>) => void
+  formRef: Ref<FormInstance> | null
   supportUrlQuery: boolean
   fetchCount: number
   isRefreshing: boolean

@@ -1,5 +1,6 @@
 <script lang="tsx" setup>
 import { useForm } from '@/utils/hooks/useForm'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   record: [Object]
@@ -8,6 +9,7 @@ const emits = defineEmits(['submit'])
 const form = useForm({
   model: { ...props.record },
   async onSubmit() {
+    ElMessage.success('成功')
     emits('submit')
   }
 })
@@ -19,9 +21,7 @@ const form = useForm({
       <el-input v-model="form.model.title"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" :loading="form.submitLoading" @click="form.onSubmit"
-        >保存</el-button
-      >
+      <el-button type="primary" :loading="form.submitLoading" @click="form.onSubmit">保存</el-button>
       <el-button @click="form.close">取消</el-button>
     </el-form-item>
   </el-form>
