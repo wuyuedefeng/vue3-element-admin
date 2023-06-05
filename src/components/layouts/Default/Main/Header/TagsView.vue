@@ -75,6 +75,7 @@ onBeforeUnmount(() => {
         <template v-for="tag in tagsViewStore.visitedRoutes" :key="tag.path || tag.name">
           <router-link
             class="router-item"
+            :class="{ active: tag.name === route.name }"
             :to="{ path: tag.path, query: tag.query }"
             @contextmenu.prevent="(event: any) => contextmenuState.openMenu(tag, event)"
           >
@@ -105,7 +106,7 @@ onBeforeUnmount(() => {
     flex-shrink: 0;
     background: #fff;
 
-    &.router-link-active {
+    &.router-link-active.active {
       background-color: #42b983;
       border-color: #42b983;
       color: #fff;
