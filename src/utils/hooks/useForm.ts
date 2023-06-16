@@ -13,12 +13,20 @@ export const useForm = (options: FormOptions) => {
     submitLoading: false,
     async onSubmit(...args: any[]) {
       state.submitLoading = true
+      try {
+        await state.onValidate()
+        await options.onSubmit(...args)
+      } finally {
+        state.submitLoading = false
+      }
+    },
+    async onValidate() {
       // eslint-disable-next-line no-async-promise-executor
       await new Promise(async (resolve, reject) => {
         try {
           await (state.formRef as any).validate(async (valid: boolean, fields: any[]) => {
             if (valid) {
-              resolve(await options.onSubmit(...args).catch((e) => reject(e)))
+              resolve(valid)
             } else {
               console.error('error submit!', fields)
               reject(fields)
@@ -27,8 +35,6 @@ export const useForm = (options: FormOptions) => {
         } catch (e: any) {
           reject(e)
         }
-      }).finally(() => {
-        state.submitLoading = false
       })
     },
     async onCancel() {
@@ -61,6 +67,7 @@ export interface Form {
   model: Record<string, any>
   rules: Record<string, any[]> | {}
   submitLoading: boolean
+  onValidate: () => Promise<void>
   onSubmit: (...args: any[]) => Promise<void>
   onCancel: () => Promise<void>
   resetFields: () => void
